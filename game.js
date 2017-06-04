@@ -7,7 +7,6 @@ var position_dictionary = { tl: [80, 80],
 							ll: [80, 400],
 							lm: [240, 400],
 							lr: [400, 400]}
-var pieces_arr = []; 
 
 function startGame(){
 	init()
@@ -21,11 +20,6 @@ function init() {
 	document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 	canvas.addEventListener("click", onClick, false);
 	drawBoard(); 
-	pieces_arr.clear();
-	pieces_arr.length = 8; 
-	for item in pieces_arr {
-			alert("hi");
-	}
     //draw_piece(position_dictionary.tr, 'X'); 
 }
 
