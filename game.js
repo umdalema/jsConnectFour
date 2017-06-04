@@ -16,6 +16,8 @@ function startGame(){
 function init() {
 	turn = 0; 
 	canvas = document.createElement("canvas");
+	//ctx = canvas.getContext("2d");
+
 	canvas.width = 480; 
 	canvas.height = 480; 
 	document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -86,7 +88,7 @@ function onClick(e){
 
 	// condition ? expr1 : expr2 
 
-	var piece = ((turn % 2) == 0) ? 'X' : 'O'
+	var piece = ((turn % 2) == 0) ? 'X' : 'O';
 
 	draw_piece(pos, piece); 
 	pos[2] = piece
@@ -94,24 +96,25 @@ function onClick(e){
 	if (check_for_soultion(piece)){
 		// call reset function. 
 		// wait for the piece to board to finish drawing. 
-		setTimeout(function(){alert(piece + " won!");}, 50); 
+		setTimeout(function(){alert(piece + " won!");}, 100); 
+		setTimeout(resetGame, 101); 
 	}
-
-
-
 	turn += 1; 
 }
-/*
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
-    };
+
+function resetGame() {
+
+	var ctx = canvas.getContext('2d');
+	//context.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	drawBoard(); 
+
+	$.each(position_dictionary, function(i, val){
+		//alert(val[2]);
+		val[2] = EMPTY_SQURE; 
+	}); 
+	
 }
-
-
-*/
 
 function drawBoard(){
 
