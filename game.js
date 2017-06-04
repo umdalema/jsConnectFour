@@ -15,12 +15,12 @@ function startGame(){
 
 function init() {
 	turn = 0; 
-	canvas = document.createElement("canvas");
+	//canvas = document.createElement("canvas");
+	canvas = document.getElementById("canvas"); 
 	//ctx = canvas.getContext("2d");
-
 	canvas.width = 480; 
 	canvas.height = 480; 
-	document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+	//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 	canvas.addEventListener("click", onClick, false);
 	drawBoard(); 
 }
@@ -75,6 +75,12 @@ function get_correct_square(x_position, y_position){
 	}
 }
 
+function update_score(piece){
+	var id = piece + "_score";
+	var elt = document.getElementById(id);
+	elt.innerHTML = (parseInt(elt.innerHTML) + 1);
+}
+
 function onClick(e){
 	var bounds = canvas.getBoundingClientRect(); 
 	var offsetX = e.clientX - bounds.left;  
@@ -98,6 +104,14 @@ function onClick(e){
 		// wait for the piece to board to finish drawing. 
 		setTimeout(function(){alert(piece + " won!");}, 100); 
 		setTimeout(resetGame, 101); 
+		setTimeout(update_score(piece), 102); 
+	} else{
+		//alert(turn); 
+		if (turn == 8){
+			// no one won the game: 
+			setTimeout(function(){alert("Cat's game!");}, 100); 
+			setTimeout(resetGame, 101); 
+		}
 	}
 	turn += 1; 
 }
@@ -113,8 +127,11 @@ function resetGame() {
 		//alert(val[2]);
 		val[2] = EMPTY_SQURE; 
 	}); 
+
+	turn = 0; 
 	
 }
+
 
 function drawBoard(){
 

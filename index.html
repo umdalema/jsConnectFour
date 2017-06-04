@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<script src="http://code.jquery.com/jquery-2.0.0.js"></script>
-<script type="text/javascript" src="./game.js"></script>
-<style>
-canvas {
-    border: 1px solid #d3d3d3;
-    background-color: #f1f1f1;
-}
-</style>
-</head>
-<body onload="startGame()"></body>
-<script type="text/javascript">
-	function temp() {
-			alert("hi");
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	};
-</script>
+	<!-- JQuery source code -->
+	<script src="http://code.jquery.com/jquery-2.0.0.js"></script>
+
+	<!-- Bootstrap source code --> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- My JavaScript source code -->
+	<script type="text/javascript" src="./game.js"></script>
+
+	<style>
+		canvas {
+    		border: 1px solid #d3d3d3;
+    		background-color: #f1f1f1;
+		}
+
+		.center-block {
+		   margin-left:auto;
+		   margin-right:auto;
+		   display:block;
+		}
+
+		p {
+			text-align: left;
+			font-size: 50px; 
+			display: inline-block;
+			vertical-align: top; 
+		}
+
+		.card {	
+			opacity: .95; 
+			display: block;
+	        margin: 0 auto; /* Added */
+	        float: none; /* Added */
+	        margin-bottom: 10px; /* Added */
+	        width: 80%;
+	        /*border: 3px dotted;*/
+		}
+	</style>
+</head>
+<body onload="startGame()">
+
+	<div class="container-fluid card">
+		<canvas id="canvas"></canvas>
+		<p> 
+			<span id="scores">
+			Player 1 Score: <span id="X_score">0</span> <br>
+		    Player 2 Score: <span id="O_score">0</span>
+	   	</p>
+	</div>
+</body>
