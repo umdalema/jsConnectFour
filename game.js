@@ -1,74 +1,104 @@
-var position_dictionary = { tl: [80, 80],
-							tm: [240, 80],
-							tr: [400, 80],
-							ml: [80, 240],
-							mm: [240, 240],
-							mr: [400, 240],
-							ll: [80, 400],
-							lm: [240, 400],
-							lr: [400, 400]}
+var position_dictionary = { tl: [80, 80, '-'],
+							tm: [240, 80, '-'],
+							tr: [400, 80, '-'],
+							ml: [80, 240, '-'],
+							mm: [240, 240, '-'],
+							mr: [400, 240, '-'],
+							ll: [80, 400, '-'],
+							lm: [240, 400, '-'],
+							lr: [400, 400, '-']}
+const EMPTY_SQURE = '-';
 
 function startGame(){
 	init()
 }
-var turn = 0; 
 
 function init() {
+	turn = 0; 
 	canvas = document.createElement("canvas");
 	canvas.width = 480; 
 	canvas.height = 480; 
 	document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 	canvas.addEventListener("click", onClick, false);
 	drawBoard(); 
-    //draw_piece(position_dictionary.tr, 'X'); 
+}
+function check_for_soultion (piece){
+	//alert("here");
+	if ((position_dictionary.tl[2] == position_dictionary.tm[2]  && position_dictionary.tl[2] == position_dictionary.tr[2] && position_dictionary.tl[2] != EMPTY_SQURE) ||
+		// all the same top row. 
+	    (position_dictionary.ml[2] == position_dictionary.mm[2]  && position_dictionary.ml[2] == position_dictionary.mr[2] && position_dictionary.ml[2] != EMPTY_SQURE) ||
+		// all same middle row. 
+	    (position_dictionary.ll[2] == position_dictionary.lm[2]  && position_dictionary.ll[2] == position_dictionary.lr[2] && position_dictionary.ll[2] != EMPTY_SQURE) ||
+
+	    (position_dictionary.tl[2] == position_dictionary.ml[2]  && position_dictionary.tl[2] == position_dictionary.ll[2] && position_dictionary.tl[2] != EMPTY_SQURE) ||
+
+		(position_dictionary.tm[2] == position_dictionary.mm[2]  && position_dictionary.tm[2] == position_dictionary.lm[2] && position_dictionary.tm[2] != EMPTY_SQURE)  ||
+
+		(position_dictionary.tr[2] == position_dictionary.mr[2]  && position_dictionary.tr[2] == position_dictionary.lr[2] && position_dictionary.tr[2] != EMPTY_SQURE)  ||
+
+		(position_dictionary.tl[2] == position_dictionary.mm[2]  && position_dictionary.tl[2] == position_dictionary.lr[2] && position_dictionary.tl[2] != EMPTY_SQURE)  ||
+
+		(position_dictionary.ll[2] == position_dictionary.mm[2]  && position_dictionary.ll[2] == position_dictionary.tr[2] && position_dictionary.ll[2] != EMPTY_SQURE)){
+		return true; 
+	} else {
+		return false; 
+	}
+}
+function get_correct_square(x_position, y_position){
+
+	if (y_position < 160){
+		if (x_position < 160){
+			return position_dictionary.tl; 
+		} else if (x_position > 160 && x_position < 320){
+			return position_dictionary.tm; 
+		} else {
+			return position_dictionary.tr; 
+		}
+	} else if (y_position > 160 && y_position < 320){
+		if (x_position < 160){
+			return position_dictionary.ml; 
+		} else if (x_position > 160 && x_position < 320){
+			return position_dictionary.mm; 
+		} else {
+			return position_dictionary.mr; 
+		}
+	} else {
+		if (x_position < 160){
+			return position_dictionary.ll; 
+		} else if (x_position > 160 && x_position < 320){
+			return position_dictionary.lm; 
+		} else {
+			return position_dictionary.lr; 
+		}
+	}
 }
 
 function onClick(e){
 	var bounds = canvas.getBoundingClientRect(); 
-	var pos; 
-
 	var offsetX = e.clientX - bounds.left;  
 	var offsetY = e.clientY - bounds.top; 
-	//alert("x = " +offsetX);
-	//alert("y = " +offsetY);
+	var pos = get_correct_square(offsetX, offsetY);
 	
-	if (offsetX < 160){
-		if (offsetY < 160){
-			pos = position_dictionary.tl;
-		} else if (offsetY > 160 && offsetY < 320){
-			pos = position_dictionary.ml;
-		} else if (offsetY > 320){
-			pos = position_dictionary.ll; 
-		} 
-	} else if (offsetX > 160 && offsetX < 320){
-		if (offsetY < 160){
-			pos = position_dictionary.tm;
-		} else if (offsetY > 160 && offsetY < 320){
-			pos = position_dictionary.mm;
-		} else if (offsetY > 320){
-			pos = position_dictionary.lm; 
-		} 
-	} else if (offsetX > 320){
-		if (offsetY < 160){
-			pos = position_dictionary.tr;
-		} else if (offsetY > 160 && offsetY < 320){
-			pos = position_dictionary.mr;
-			//alert("mr");
-		} else if (offsetY > 320){
-			pos = position_dictionary.lr; 
-		} else {
-			alert("whoops")
-		}
-	} else {
-		alert("you didn't choose an actual squre");
-	} 
-
-	if ((turn % 2) == 0){
-		draw_piece(pos, 'X');
-
-	} else{
-		draw_piece(pos, 'O');
+	if (pos[2] != EMPTY_SQURE){
+		alert("that square has been taken please schoose another one");
+		return; 
 	}
+
+	// condition ? expr1 : expr2 
+
+	var piece = ((turn % 2) == 0) ? 'X' : 'O'
+
+	draw_piece(pos, piece); 
+	pos[2] = piece
+
+	if (check_for_soultion(piece)){
+		// call reset function. 
+		// wait for the piece to board to finish drawing. 
+		setTimeout(function(){alert(piece + " won!");}, 50); 
+	}
+
+
+
 	turn += 1; 
 }
 /*
