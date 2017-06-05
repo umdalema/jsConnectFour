@@ -1,1 +1,1 @@
-# jsConnectFour
+# jsTicTacToe
